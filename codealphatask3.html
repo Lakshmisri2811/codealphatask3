@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Code Editor</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        #editor {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="editor"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script>
+        window.onload = function() {
+            var editor = ace.edit("editor");
+            editor.setTheme("ace/theme/monokai");
+            editor.getSession().setMode("ace/mode/html");
+
+            // You can set the initial content of the editor here
+            // editor.setValue("<h1>Hello, World!</h1>");
+
+            // Function to get the content of the editor
+            function getCode() {
+                return editor.getValue();
+            }
+
+            // Function to execute the code
+            function runCode() {
+                var code = getCode();
+                var iframe = document.createElement('iframe');
+                document.body.appendChild(iframe);
+                iframe.contentWindow.document.open();
+                iframe.contentWindow.document.write(code);
+                iframe.contentWindow.document.close();
+                document.body.removeChild(iframe);
+            }
+
+            // Button to execute the code
+            var runButton = document.createElement('button');
+            runButton.textContent = 'Run Code';
+            runButton.onclick = runCode;
+            document.body.appendChild(runButton);
+        };
+    </script>
+</body>
+</html>
